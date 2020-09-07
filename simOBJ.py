@@ -64,28 +64,34 @@ class Inputbox:
         
     
 def main():
+    # Definição de parâmetros
     FNN = Inputbox("FNN",100,100,140,32)
     FRP = Inputbox("FRP",100,150,140,32)
+    # Armazenamento dos parâmetros numa lista
     input_boxes = [FNN, FRP]
-    exportValues = [0]*len(input_boxes)
+    exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
     done = False
 
+    # Loop principal
     while not done: 
+        # Checando os possíveis eventos
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
             for box in input_boxes:
                 box.handle_event(event)
         
+        # Loop para atualizar as inputs
         for box in input_boxes:
             box.update()
 
+        # Desenhando tela
         screen.fill((180,180,180))
         for box in input_boxes:
             box.draw(screen)    
-        
         pg.display.flip()
         
+        # Exportando os valores inseridos
         for i in range(len(input_boxes)):
             exportValues[i] = input_boxes[i].value
     
@@ -94,5 +100,4 @@ def main():
         
 if __name__ == '__main__':
     value = main()
-    print(value)
     pg.quit()
