@@ -3,7 +3,7 @@ import pygame as pg
 # Inicialização do Pygame
 pg.init()
 screen = pg.display.set_mode((640,480))
-a
+
 # Definição das cores para caixa inativa e ativa
 colorInactive = pg.Color(255,0,0)
 colorActive = pg.Color(0,255,0)
