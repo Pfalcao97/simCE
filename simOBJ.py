@@ -15,17 +15,19 @@ values = []
 class Inputbox:
 
     # Função de inicialização da classe
-    def __init__(self,x,y,w,h,txt=''):
+    def __init__(self,name,x,y,w,h,txt=''):
         self.rect = pg.Rect(x,y,w,h)
         self.color = colorInactive
         self.txt = txt
         self.txt_surface = FONT.render(txt, True, self.color)
         self.active = False
         self.value = 0
+        self.name = name
+        self.name_surface = FONT.render(name, True, self.color)
     
     # Função de checagem de eventos
     def handle_event(self, event):
-        # Checando se houve um clique dentro do retângulo
+        # Checando se ha clique dentro do retângulo
         if event.type == pg.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(event.pos):
                 self.active = not self.active
@@ -57,10 +59,13 @@ class Inputbox:
         screen.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Atualizando inputbox na tela
         pg.draw.rect(screen, self.color, self.rect, 2)
+        # Desenhando nome do parâmetro na tela
+        screen.blit(self.name_surface, (self.rect.x+250, self.rect.y+5))
+        
     
 def main():
-    FNN = Inputbox(100,100,140,32)
-    FRP = Inputbox(100,150,140,32)
+    FNN = Inputbox("FNN",100,100,140,32)
+    FRP = Inputbox("FRP",100,150,140,32)
     input_boxes = [FNN, FRP]
     exportValues = [0]*len(input_boxes)
     done = False
