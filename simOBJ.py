@@ -64,9 +64,29 @@ class Inputbox:
         pg.draw.rect(screen, self.color, self.rect, 2)
         # Desenhando nome do parâmetro na tela
         screen.blit(self.name_surface, (self.rect.x+250, self.rect.y+5))
-        
-    
+
+# Definição da classe (objeto) botão        
+class botao:
+
+    # Função de inicialização da classe
+    def __init__(self,name,x,y,w,h):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.b = pg.Rect(x,y,w,h)
+        self.name = name
+        self.color = pg.Color(0,0,0)
+        self.name_surface = FONT.render(name, True, self.color)
+
+    # Desenhando o botão na tela
+    def draw(self, screen):
+        pg.draw.rect(screen,(255,0,0),self.b)
+        screen.blit(self.name_surface, (self.b.x+15, self.b.y+5))
+
 def main():
+
+    button = botao("start", 775,655,80,32)
     # Definição de parâmetros
     FNN = Inputbox("FNN",100,100,50,32)
     FRP = Inputbox("FRP",100,150,50,32)
@@ -90,7 +110,7 @@ def main():
     done = False
 
     # Loop principal
-    while not done: 
+    while not done:
         # Checando os possíveis eventos
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -104,6 +124,7 @@ def main():
 
         # Desenhando tela
         screen.fill((180,180,180))
+        button.draw(screen)
         for box in input_boxes:
             box.draw(screen)    
         pg.display.flip()
