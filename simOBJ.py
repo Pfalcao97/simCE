@@ -1,4 +1,5 @@
-import pygame as pg 
+import pygame as pg
+import numpy as np 
 
 # Inicialização do Pygame
 pg.init()
@@ -43,7 +44,7 @@ class Inputbox:
                 if event.key == pg.K_RETURN or event.key == pg.K_KP_ENTER:
                     print(self.txt)
                     self.value = float(self.txt)
-                    self.txt = ''
+                    #self.txt = ''
                 elif event.key == pg.K_BACKSPACE:
                     self.txt = self.txt[:-1]
                 else:
@@ -51,6 +52,9 @@ class Inputbox:
                 
                 # Renderizar o texto novamente
                 self.txt_surface = FONT.render(self.txt, True, self.color)
+
+     
+        
 
     def update(self):
         # Atualizando a largura do retângulo para o texto
@@ -69,7 +73,7 @@ class Inputbox:
 class botao:
 
     # Função de inicialização da classe
-    def __init__(self,name,x,y,w,h):
+    def __init__(self,name,exportValues,x,y,w,h):
         self.x = x
         self.y = y
         self.width = w
@@ -78,15 +82,22 @@ class botao:
         self.name = name
         self.color = pg.Color(0,0,0)
         self.name_surface = FONT.render(name, True, self.color)
+        self.exportValues = exportValues
 
     # Desenhando o botão na tela
     def draw(self, screen):
         pg.draw.rect(screen,(255,0,0),self.b)
         screen.blit(self.name_surface, (self.b.x+15, self.b.y+5))
 
+    def handle_event(self,event):
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if self.b.collidepoint(event.pos):
+                print(self.exportValues)
+                
+
 def main():
 
-    button = botao("start", 775,655,80,32)
+    
     # Definição de parâmetros
     FNN = Inputbox("FNN",100,100,50,32)
     FRP = Inputbox("FRP",100,150,50,32)
@@ -106,13 +117,17 @@ def main():
     CSU = Inputbox("CSU",600,450,50,32)
     # Armazenamento dos parâmetros numa lista
     input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, PLG, SPP, CSU]
-    exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
+    #exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
+    exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
+    button = botao("start", exportValues, 775,655,80,32)
     done = False
+    
 
     # Loop principal
     while not done:
         # Checando os possíveis eventos
         for event in pg.event.get():
+            button.handle_event(event)
             if event.type == pg.QUIT:
                 done = True
             for box in input_boxes:
@@ -132,10 +147,10 @@ def main():
         # Exportando os valores inseridos
         for i in range(len(input_boxes)):
             exportValues[i] = input_boxes[i].value
-    
     return(exportValues)
             
         
 if __name__ == '__main__':
     value = main()
+    print(value)
     pg.quit()
