@@ -73,16 +73,18 @@ class Inputbox:
 class botao:
 
     # Função de inicialização da classe
-    def __init__(self,name,exportValues,x,y,w,h):
+    def __init__(self,name,input_boxes,x,y,w,h):
         self.x = x
         self.y = y
         self.width = w
         self.height = h
-        self.b = pg.Rect(x,y,w,h)
+        self.b = pg.Rect(x,y,w,h) # função 4-dimensões
         self.name = name
         self.color = pg.Color(0,0,0)
         self.name_surface = FONT.render(name, True, self.color)
-        self.exportValues = exportValues
+        #self.exportValues = exportValues
+        self.input_boxes = input_boxes
+        self.dic = {}
 
     # Desenhando o botão na tela
     def draw(self, screen):
@@ -92,8 +94,10 @@ class botao:
     def handle_event(self,event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if self.b.collidepoint(event.pos):
-                print(self.exportValues)
-                
+                for box in self.input_boxes:
+                    self.dic[box.name] = box.value
+                        #print(self.exportValues)
+                print(self.dic)
 
 def main():
 
@@ -119,7 +123,7 @@ def main():
     input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, PLG, SPP, CSU]
     #exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
     exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
-    button = botao("start", exportValues, 775,655,80,32)
+    button = botao("start", input_boxes, 775,655,80,32)
     done = False
     
 
@@ -152,5 +156,4 @@ def main():
         
 if __name__ == '__main__':
     value = main()
-    print(value)
     pg.quit()
