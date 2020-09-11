@@ -11,7 +11,7 @@ screen = pg.display.set_mode((w_w,w_h))
 colorInactive = pg.Color(255,0,0)
 colorActive = pg.Color(0,255,0)
 FONT = pg.font.Font(None, 32)
-values = []    
+values = [] 
 
 
 # Definição da classe (objeto) Inputbox
@@ -85,6 +85,7 @@ class botao:
         #self.exportValues = exportValues
         self.input_boxes = input_boxes
         self.dic = {}
+        
 
     # Desenhando o botão na tela
     def draw(self, screen):
@@ -99,9 +100,9 @@ class botao:
                         #print(self.exportValues)
                 print(self.dic)
 
+
 def main():
 
-    
     # Definição de parâmetros
     FNN = Inputbox("FNN",100,100,50,32)
     FRP = Inputbox("FRP",100,150,50,32)
@@ -152,7 +153,8 @@ def main():
         for i in range(len(input_boxes)):
             exportValues[i] = input_boxes[i].value
     return(exportValues)
-            
+
+
         
 if __name__ == '__main__':
     value = main()
