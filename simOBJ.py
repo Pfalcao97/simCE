@@ -6,7 +6,7 @@ pg.init()
 w_w = 1024
 w_h = 768
 screen = pg.display.set_mode((w_w,w_h))
-
+file = open("values.txt", "w+")
 # Definição das cores para caixa inativa e ativa
 colorInactive = pg.Color(255,0,0)
 colorActive = pg.Color(0,255,0)
@@ -18,7 +18,7 @@ values = []
 class Inputbox:
 
     # Função de inicialização da classe
-    def __init__(self,name,x,y,w,h,txt=''):
+    def __init__(self,name,x,y,w,h,txt='0'):
         self.rect = pg.Rect(x,y,w,h)
         self.color = colorInactive
         self.txt = txt
@@ -98,7 +98,8 @@ class botao:
                 for box in self.input_boxes:
                     self.dic[box.name] = box.value
                         #print(self.exportValues)
-                print(self.dic)
+                #print(self.dic)
+                file.write(str(self.dic))
 
 
 def main():
@@ -158,4 +159,5 @@ def main():
         
 if __name__ == '__main__':
     value = main()
+    file.close()
     pg.quit()
