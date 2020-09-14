@@ -28,7 +28,7 @@ class Inputbox:
         self.name = name
         self.name_surface = FONT.render(name, True, self.color)
         self.width = w
-        self.availableKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.']
+        self.availableKeys = ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '.']
     # Função de checagem de eventos
     def handle_event(self, event):
         # Checando se ha clique dentro do retângulo
@@ -49,9 +49,10 @@ class Inputbox:
                     self.txt = self.txt[:-1]
                 elif event.unicode in self.availableKeys:
                     self.txt += event.unicode
+                
                     
                     # Renderizar o texto novamente
-                    self.txt_surface = FONT.render(self.txt, True, self.color)
+                self.txt_surface = FONT.render(self.txt, True, self.color)
 
      
         
