@@ -28,6 +28,7 @@ class Screen():
     def returnTitle(self):
         return self.screen
 
+
 class Button:
     def __init__(self, x, y, sizex, sizey, buttoncolour, fbuttoncolour, font, fontsize, fcolour, text):
     # posição x, posição y, tamanho em x, tamanho em y, cor do botão, cor do botão quando clicado, fonte,
@@ -61,7 +62,7 @@ class Button:
         else:
             self.current = False
             return False
-
+'''
 pg.init()
 pg.font.init()
 
@@ -108,5 +109,5 @@ while not done:
     
     pg.display.update()
 pg.quit()
-
+'''
 

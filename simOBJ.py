@@ -6,7 +6,7 @@ pg.init()
 w_w = 1024
 w_h = 768
 screen = pg.display.set_mode((w_w,w_h))
-file = open("values.txt", "w+")
+#file = open("values.txt", "w+")
 # Definição das cores para caixa inativa e ativa
 colorInactive = pg.Color(255,0,0)
 colorActive = pg.Color(0,255,0)
@@ -44,18 +44,14 @@ class Inputbox:
                 if event.key == pg.K_RETURN or event.key == pg.K_KP_ENTER:
                     print(self.txt)
                     self.value = float(self.txt)
+                    self.active = False
                     #self.txt = ''
-                elif event.key == pg.K_BACKSPACE:
+                if event.key == pg.K_BACKSPACE:
                     self.txt = self.txt[:-1]
                 elif event.unicode in self.availableKeys:
                     self.txt += event.unicode
-                
-                    
                     # Renderizar o texto novamente
                 self.txt_surface = FONT.render(self.txt, True, self.color)
-
-     
-        
 
     def update(self):
         # Atualizando a largura do retângulo para o texto
@@ -86,6 +82,7 @@ class botao:
         #self.exportValues = exportValues
         self.input_boxes = input_boxes
         self.dic = {}
+        self.change = False
         
 
     # Desenhando o botão na tela
@@ -98,9 +95,14 @@ class botao:
             if self.b.collidepoint(event.pos):
                 for box in self.input_boxes:
                     self.dic[box.name] = box.value
+                self.change = True
                         #print(self.exportValues)
                 #print(self.dic)
-                file.write(str(self.dic))
+                #file.write(str(self.dic))
+    
+    def change(self):
+        if self.change:
+            return (self.change)
 
 
 def main():
@@ -155,10 +157,11 @@ def main():
         for i in range(len(input_boxes)):
             exportValues[i] = input_boxes[i].value
     return(exportValues)
+   
 
 
         
 if __name__ == '__main__':
     value = main()
-    file.close()
+    #file.close()
     pg.quit()
