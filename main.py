@@ -65,7 +65,8 @@ while not done:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
-        print(valores)
+        #print("to na segunda tela champz")
+        #print(valores)
     
 
 
