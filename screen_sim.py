@@ -46,29 +46,17 @@ epe = bolinha('EPE',screen,100,500)
 pns = bolinha('PNS',screen,250,660)
 prs = bolinha('PRS',screen,380,660)
 spp = bolinha('SPP',screen,510,520)
+
+elements = [fnn,frp,pex,prm,pmn,plg,csu,scd,sce,shi,err,enr,epe,pns,prs,spp]
 def main():
     done = False
     
     while not done:
         screen.fill(white)
         #screen.blit(image, (0, 0))
-        fnn.draw()
-        frp.draw()
-        pex.draw()
-        prm.draw()
-        pmn.draw()
-        plg.draw()
-        csu.draw()
-        scd.draw()
-        sce.draw()
-        shi.draw()
-        err.draw()
-        enr.draw()
-        epe.draw()
-        pns.draw()
-        prs.draw()
-        spp.draw()
-        mousepos = pg.mouse.get_pos()
+        for element in elements:
+            element.draw()
+        #mousepos = pg.mouse.get_pos()
         for event in pg.event.get():
                 if event.type == pg.QUIT:
                     done = True
