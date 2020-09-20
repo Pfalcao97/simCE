@@ -53,7 +53,7 @@ class Button:
             pg.draw.rect(display, self.buttoncolour, (self.x, self.y, self.sizex, self.sizey))
 
         textsurface = self.buttonf.render(self.text, True, self.fcolour)
-        display.blit(textsurface, ((int(self.x + (self.sizex/2) - (self.fontsize/2)*(len(self.text)/2)) - 5, int((self.y + (self.sizey/2) - (self.fontsize/2)-4)))))
+        display.blit(textsurface, ((int(self.x + (self.sizex/2)-int(self.buttonf.size(self.text)[0])/2), int((self.y + (self.sizey/2) - int(self.buttonf.size(self.text)[1])/2)))))
         
     def focusCheck(self, mousepos, mouseclick):
         if (mousepos[0] >= self.x and mousepos[0] <=  self.x + self.sizex and mousepos[1] >= self.y and mousepos[1] <= self.y + self.sizey):

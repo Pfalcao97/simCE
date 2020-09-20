@@ -1,6 +1,6 @@
 # IMPORTAÇÃO DOS OBJETOS CRIADOS
 
-from screenManager import Screen, Button, colours
+from screenManager import Screen, Button
 from simOBJ import Inputbox
 from screen_sim import Bolinha, Timer
 import pygame as pg 
@@ -19,6 +19,7 @@ done = False
 paramScreen = Screen("Valores", w_w, w_h) 
 simScreen = Screen("Simulação", w_w, w_h)
 win = paramScreen.makeCurrent()
+colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
 
 FNN = Inputbox("FNN",100,100,50,32)
 FRP = Inputbox("FRP",100,150,50,32)
@@ -40,11 +41,10 @@ CSU = Inputbox("CSU",600,450,50,32)
 # Armazenamento dos parâmetros numa lista
 input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, PLG, SPP, CSU]
 exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
-#buttonStart = Botao("Start", input_boxes, 775,655,80,32)
-bStart = Button(775,665,80,32,(255,0,0),(0,255,0),None,20,(0,0,0),"Start")
-bReturn = Button(775,665,80,32,(255,0,0),(0,255,0),None,20,(0,0,0),"Return")
-#startbuttonStart = buttonStart(775,655,80,32,colours['black'], colours['red'], "Helvetica", 20, colours['white'], "Start")
-valores = {}
+bStart = Button(775,665,150,50,colours['blue'],colours['blue'],None,40,colours['black'],"Start")
+bReturn = Button(775,665,150,50,colours['red'],colours['red'],None,40,colours['black'],"Return")
+bResults = Button(775,665,80,32,colours['green'],colours['green'],None,40,colours['black'],"Results")
+values = {}
 
 # LOOP PRINCIPAL DA APLICAÇÃO
 # Aqui todas as lógicas são definidas. Também é aplicado o sistema de gerenciamento de janelas para que
@@ -75,7 +75,7 @@ while not done:
         #valores = buttonStart.dic
         if bStart.focusCheck(mouse_pos,mouse_click):
             for box in input_boxes:
-                valores[box.name] = box.value
+                values[box.name] = box.value
         #if buttonStart.change:
             win = simScreen.makeCurrent()
             paramScreen.endCurrent()
@@ -92,7 +92,7 @@ while not done:
             win = paramScreen.makeCurrent()
             simScreen.endCurrent()
         #print("to na segunda tela champz")
-        print(valores)
+        
     
 
 
