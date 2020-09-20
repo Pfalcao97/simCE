@@ -8,11 +8,10 @@ screen = pg.display.set_mode((w_w,w_h))
 FONT = pg.font.Font(None, 20)
 image = pg.image.load('imgbase.PNG')
 #image = pg.transform.scale(image, (75,100))                   
-a = "auhsuhsa"
-
 white = (255, 255, 255)
 black = (0,0,0) 
 shadow = (90,90,90)
+bg = (220,220,220)
 dic = {'FNN': 10.0, 'FRP': 1.0, 'SCD': -0.5, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 1.0, 'ENR': 0.0, 'EPE': 0.005, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
 
 class bolinha:
@@ -29,6 +28,13 @@ class bolinha:
         pg.gfxdraw.filled_circle(screen,self.x, self.y,size,white)
         pg.gfxdraw.aacircle(screen,self.x, self.y,size,black)
         screen.blit(self.name_surface, (self.x-int(FONT.size(self.name)[0]/2), self.y-int(FONT.size(self.name)[1]/2)))
+
+def timer(time):
+    seconds = (pg.time.get_ticks()-start_ticks)/1000
+    if seconds > time:
+        print("terminou")
+
+start_ticks = pg.time.get_ticks()
 
 fnn = bolinha('FNN',screen,450,130)
 frp = bolinha('FRP',screen,560,130)
@@ -52,7 +58,9 @@ def main():
     done = False
     
     while not done:
-        screen.fill(white)
+        timer(10)
+        screen.fill(bg)
+        
         #screen.blit(image, (0, 0))
         for element in elements:
             element.draw()
