@@ -29,13 +29,23 @@ class bolinha:
         pg.gfxdraw.aacircle(screen,self.x, self.y,size,black)
         screen.blit(self.name_surface, (self.x-int(FONT.size(self.name)[0]/2), self.y-int(FONT.size(self.name)[1]/2)))
 
-def timer(time):
-    seconds = (pg.time.get_ticks()-start_ticks)/1000
-    if seconds > time:
-        print("terminou")
-
-start_ticks = pg.time.get_ticks()
-
+class Timer:
+    def __init__(self, screen, time, x, y):
+        self.screen = screen
+        self.time = time
+        self.x = x
+        self.y = y
+        self.counter_surface = FONT.render(str(self.time), True, black)
+        self.timer_event = pg.USEREVENT+1
+        
+    def handle_event(self,event):
+        if event.type == self.timer_event:
+            self.time -= 1
+            self.counter_surface = FONT.render(str(self.time), True, black)
+    
+    def draw(self, screen):
+        screen.blit(self.counter_surface, (self.x,self.y))
+clock = pg.time.Clock()
 fnn = bolinha('FNN',screen,450,130)
 frp = bolinha('FRP',screen,560,130)
 pex = bolinha('PEX',screen,250,350)
@@ -53,14 +63,16 @@ pns = bolinha('PNS',screen,250,660)
 prs = bolinha('PRS',screen,380,660)
 spp = bolinha('SPP',screen,510,520)
 
+timer = Timer(screen,10,775,655)
+pg.time.set_timer(pg.USEREVENT+1,1000)
 elements = [fnn,frp,pex,prm,pmn,plg,csu,scd,sce,shi,err,enr,epe,pns,prs,spp]
 def main():
     done = False
     
     while not done:
-        timer(10)
+        clock.tick(30)
         screen.fill(bg)
-        
+        timer.draw(screen)
         #screen.blit(image, (0, 0))
         for element in elements:
             element.draw()
@@ -68,6 +80,7 @@ def main():
         for event in pg.event.get():
                 if event.type == pg.QUIT:
                     done = True
+                timer.handle_event(event)
         pg.display.flip()
         #print(mousepos[1],mousepos[0])
 if __name__ == "__main__":
