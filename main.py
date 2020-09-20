@@ -1,15 +1,24 @@
-from screenManager import Screen, colours
-from simOBJ import main, Inputbox, botao
+# IMPORTAÇÃO DOS OBJETOS CRIADOS
+
+from screenManager import Screen, Button, colours
+from simOBJ import Inputbox
+from screen_sim import Bolinha, Timer
 import pygame as pg 
 import numpy as np
 
+# VARIÁVEIS GLOBAIS
+# Aqui o Pygame é iniciado e são definidas todas as variáveis utilizadas como:
+# altura e largura da janela, telas (menu de parâmetros, simulação e exibição dos resultados),
+# input boxes para que o usuário possa inserir valores, botões, timer, etc.
 
 pg.init()
 pg.font.init()
+w_w = 1024
+w_h = 768
 done = False
-valuesMenu = Screen("Valores",1024,768)
-simScreen = Screen("Simulação", 1024,768 )
-win = valuesMenu.makeCurrent()
+paramScreen = Screen("Valores", w_w, w_h) 
+simScreen = Screen("Simulação", w_w, w_h)
+win = paramScreen.makeCurrent()
 
 FNN = Inputbox("FNN",100,100,50,32)
 FRP = Inputbox("FRP",100,150,50,32)
@@ -27,36 +36,49 @@ PMN = Inputbox("PMN",600,300,50,32)
 PLG = Inputbox("PLG",600,350,50,32)
 SPP = Inputbox("SPP",600,400,50,32)
 CSU = Inputbox("CSU",600,450,50,32)
+
 # Armazenamento dos parâmetros numa lista
 input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, PLG, SPP, CSU]
-#exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
 exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
-button = botao("start", input_boxes, 775,655,80,32)
-#startButton = Button(775,655,80,32,colours['black'], colours['red'], "Helvetica", 20, colours['white'], "Start")
+#buttonStart = Botao("Start", input_boxes, 775,655,80,32)
+bStart = Button(775,665,80,32,(255,0,0),(0,255,0),None,20,(0,0,0),"Start")
+bReturn = Button(775,665,80,32,(255,0,0),(0,255,0),None,20,(0,0,0),"Return")
+#startbuttonStart = buttonStart(775,655,80,32,colours['black'], colours['red'], "Helvetica", 20, colours['white'], "Start")
 valores = {}
 
+# LOOP PRINCIPAL DA APLICAÇÃO
+# Aqui todas as lógicas são definidas. Também é aplicado o sistema de gerenciamento de janelas para que
+# o usuário possa interagir com todo o sistema.
+
 while not done:
-    # INICIO DA TELA DE VARIAVEIS
-    valuesMenu.screenUpdate()
+    mouse_pos = pg.mouse.get_pos()
+    mouse_click = pg.mouse.get_pressed()
+    paramScreen.screenUpdate()
     simScreen.screenUpdate()
+    # INICIO DA TELA DE VARIAVEIS
+    
     # Tela do menu de variáveis
-    if valuesMenu.checkUpdate():
+    if paramScreen.checkUpdate():
         for event in pg.event.get():
-            button.handle_event(event)
+            #buttonStart.handle_event(event)
             if event.type == pg.QUIT:
                 done = True
             for box in input_boxes:
                 box.handle_event(event)
         for box in input_boxes:
             box.update()
-        button.draw(valuesMenu.screen)
+        #buttonStart.draw(paramScreen.screen)
+        bStart.showButton(paramScreen.screen)
 
         for box in input_boxes:
-            box.draw(valuesMenu.screen)
-        valores = button.dic
-        if button.change:
+            box.draw(paramScreen.screen)
+        #valores = buttonStart.dic
+        if bStart.focusCheck(mouse_pos,mouse_click):
+            for box in input_boxes:
+                valores[box.name] = box.value
+        #if buttonStart.change:
             win = simScreen.makeCurrent()
-            valuesMenu.endCurrent()
+            paramScreen.endCurrent()
             #print("muda de tela")
     # FIM DA TELA DE VARIAVEIS
 
@@ -65,8 +87,12 @@ while not done:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
+        bReturn.showButton(simScreen.screen)
+        if bReturn.focusCheck(mouse_pos, mouse_click):
+            win = paramScreen.makeCurrent()
+            simScreen.endCurrent()
         #print("to na segunda tela champz")
-        #print(valores)
+        print(valores)
     
 
 
@@ -76,5 +102,4 @@ while not done:
         if event.type == pg.QUIT:
             done = True'''
     pg.display.update()
-print(button.dic)
 pg.quit()

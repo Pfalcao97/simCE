@@ -67,7 +67,7 @@ class Inputbox:
         screen.blit(self.name_surface, (self.rect.x+250, self.rect.y+5))
 
 # Definição da classe (objeto) botão        
-class botao:
+class Botao:
 
     # Função de inicialização da classe
     def __init__(self,name,input_boxes,x,y,w,h):
@@ -128,7 +128,7 @@ def main():
     input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, PLG, SPP, CSU]
     #exportValues = [0]*len(input_boxes) # Lista com os valores de cada parâmetros para sem exportado
     exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
-    button = botao("start", input_boxes, 775,655,80,32)
+    button = Botao("start", input_boxes, 775,655,80,32)
     done = False
     
 
