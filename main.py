@@ -5,6 +5,8 @@ from simOBJ import Inputbox
 from screen_sim import Bolinha, Timer
 import pygame as pg 
 import numpy as np
+import pandas as pd 
+import operator
 
 # VARIÁVEIS GLOBAIS #
 # Aqui o Pygame é iniciado e são definidas todas as variáveis utilizadas como:
@@ -17,7 +19,7 @@ w_w = 1024
 w_h = 768
 done = False
 colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
-
+values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0, 'ENR': 0.0, 'EPE': 0.0, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
 # Janelas
 paramScreen = Screen("Valores", w_w, w_h, fill=colours['bg']) 
 simScreen = Screen("Simulação", w_w, w_h, fill=colours['bg'])
@@ -58,31 +60,37 @@ clock = pg.time.Clock()
 timer = Timer(10,850,50)
 pg.time.set_timer(pg.USEREVENT+1,1000)
 timer_event = pg.USEREVENT+1
-
+minsize = 15
+maxsize = 50
+# Cálculos da simulação
+op = {"+": operator.add, "-": operator.sub} # Operadores para os tipos de interações
+tabela = pd.read_csv("interactions.csv", index_col=0) # Tabela de interações
+factor = 0.5 # Fator multiplicativo
+dim = len(tabela.index) # Tamanho da tabela
 # Elementos
-fnn = Bolinha('FNN',450,130)
-frp = Bolinha('FRP',560,130)
-pex = Bolinha('PEX',250,350)
-prm = Bolinha('PRM',380,350)
-pmn = Bolinha('PMN',510,350)
-plg = Bolinha('PLG',630,350)
-csu = Bolinha('CSU',760,350)
-scd = Bolinha('SCD',910,300)
-sce = Bolinha('SCE',910,400)
-shi = Bolinha('SHI',910,500)
-err = Bolinha('ERR',100,300)
-enr = Bolinha('ENR',100,400)
-epe = Bolinha('EPE',100,500)
-pns = Bolinha('PNS',250,660)
-prs = Bolinha('PRS',380,660)
-spp = Bolinha('SPP',510,520)
+fnn = Bolinha('FNN',values,450,130,minsize, maxsize)
+frp = Bolinha('FRP',values,560,130,minsize, maxsize)
+pex = Bolinha('PEX',values,250,350,minsize, maxsize)
+prm = Bolinha('PRM',values,380,350,minsize, maxsize)
+pmn = Bolinha('PMN',values,510,350,minsize, maxsize)
+plg = Bolinha('PLG',values,630,350,minsize, maxsize)
+csu = Bolinha('CSU',values,760,350,minsize, maxsize)
+scd = Bolinha('SCD',values,910,300,minsize, maxsize)
+sce = Bolinha('SCE',values,910,400,minsize, maxsize)
+shi = Bolinha('SHI',values,910,500,minsize, maxsize)
+err = Bolinha('ERR',values,100,300,minsize, maxsize)
+enr = Bolinha('ENR',values,100,400,minsize, maxsize)
+epe = Bolinha('EPE',values,100,500,minsize, maxsize)
+pns = Bolinha('PNS',values,250,660,minsize, maxsize)
+prs = Bolinha('PRS',values,380,660,minsize, maxsize)
+spp = Bolinha('SPP',values,510,520,minsize, maxsize)
 
 # Armazenamento dos elementos numa lista
 elements = [fnn,frp,pex,prm,pmn,plg,csu,scd,sce,shi,err,enr,epe,pns,prs,spp]
 
 
 # Valores finais
-values = {}
+
 
 # LOOP PRINCIPAL DA APLICAÇÃO
 # Aqui todas as lógicas são definidas. Também é aplicado o sistema de gerenciamento de janelas para que
@@ -125,16 +133,33 @@ while not done:
         clock.tick(30)
         timer.draw(simScreen.screen)
         bReturn.showButton(simScreen.screen)
+        for element in elements:
+            element.draw(simScreen.screen)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
             if event.type == timer_event:
                 timer.time -= 1
+                # Loop para atualização dos valores dos parâmetros
+                for i in range (dim):
+                    for j in range (dim):
+                        a = tabela.index[i]
+                        b = tabela.index[j]
+                        operation = tabela.loc[a,b]
+                        if pd.isnull(operation):
+                            pass
+                        else:
+                            values[a] = op[operation](values[a],factor*values[b])
+                for element in elements:
+                    element.update(values)
                 if timer.time == 0:
                     print("cabo a graça")
+                print(values)
                 timer.update()
-        for element in elements:
-            element.draw(simScreen.screen)
+
+        
+        
+        
         
         
         if bReturn.focusCheck(mouse_pos, mouse_click):
