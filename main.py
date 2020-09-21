@@ -23,8 +23,9 @@ values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0
 # Janelas
 paramScreen = Screen("Valores", w_w, w_h, fill=colours['bg']) 
 simScreen = Screen("Simulação", w_w, w_h, fill=colours['bg'])
+resScreen = Screen("Resultados", w_w, w_h, fill=colours['bg'])
 win = paramScreen.makeCurrent() # Tela atual
-
+finalResults = []
 # Botões
 bStart = Button(775,665,150,50,colours['blue'],colours['blue'],None,40,colours['black'],"Start")
 bReturn = Button(775,665,150,50,colours['red'],colours['red'],None,40,colours['black'],"Return")
@@ -101,31 +102,30 @@ while not done:
     mouse_click = pg.mouse.get_pressed()
     paramScreen.screenUpdate()
     simScreen.screenUpdate()
+    resScreen.screenUpdate()
     # INICIO DA TELA DE VARIAVEIS
     
     # Tela do menu de variáveis
     if paramScreen.checkUpdate():
+        timer = Timer(10,850,50)
         for event in pg.event.get():
-            #buttonStart.handle_event(event)
             if event.type == pg.QUIT:
                 done = True
             for box in input_boxes:
                 box.handle_event(event)
         for box in input_boxes:
             box.update()
-        #buttonStart.draw(paramScreen.screen)
         bStart.showButton(paramScreen.screen)
 
         for box in input_boxes:
             box.draw(paramScreen.screen)
-        #valores = buttonStart.dic
+
         if bStart.focusCheck(mouse_pos,mouse_click):
             for box in input_boxes:
                 values[box.name] = box.value
-        #if buttonStart.change:
             win = simScreen.makeCurrent()
             paramScreen.endCurrent()
-            #print("muda de tela")
+
     # FIM DA TELA DE VARIAVEIS
 
     # INÍCIO DA TELA DE SIMULAÇÃO
@@ -152,28 +152,30 @@ while not done:
                             values[a] = op[operation](values[a],factor*values[b])
                 for element in elements:
                     element.update(values)
-                if timer.time == 0:
-                    print("cabo a graça")
-                print(values)
+                finalResults.append(values)
                 timer.update()
+                if timer.time <= 0:
+                    timer.time = 0
+                    win = resScreen.makeCurrent()
+                    simScreen.endCurrent()
 
-        
-        
-        
-        
-        
         if bReturn.focusCheck(mouse_pos, mouse_click):
             win = paramScreen.makeCurrent()
             simScreen.endCurrent()
-        #print("to na segunda tela champz")
-        
-    
 
+# FIM DA TELA DE SIMULAÇÃO
 
+# INÍCIO DA TELA DE RESULTADOS
+    elif resScreen.checkUpdate():
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                done = True
 
+# FIM DA TELA DE RESULTADOS
     '''
     for event in pg.event.get():
         if event.type == pg.QUIT:
             done = True'''
     pg.display.update()
+print(finalResults)
 pg.quit()
