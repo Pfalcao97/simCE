@@ -1,6 +1,6 @@
 # Circular business models simulation
 <p align="center">
-  <a href="https://github.com/aluizgc/simulacao-pendulo-simples">
+  <a href="https://github.com/aluizgc/simCE">
     <img src="simgif.gif" width="400">
   </a>
 </p>
