@@ -1,8 +1,7 @@
 # IMPORTAÇÃO DOS OBJETOS CRIADOS #
-
 from screenManager import Screen, Button
-from simOBJ import Inputbox
-from screen_sim import Bolinha, Timer
+from inputBox import Inputbox
+from simElements import Bolinha, Timer
 import pygame as pg 
 import numpy as np
 import pandas as pd 
@@ -12,7 +11,6 @@ import operator
 # Aqui o Pygame é iniciado e são definidas todas as variáveis utilizadas como:
 # altura e largura da janela, telas (menu de parâmetros, simulação e exibição dos resultados),
 # input boxes para que o usuário possa inserir valores, botões, timer, etc.
-
 pg.init()
 pg.font.init()
 w_w = 1024
@@ -22,12 +20,14 @@ time = 10
 done = False
 colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
 values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0, 'ENR': 0.0, 'EPE': 0.0, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
+
 # Janelas
 paramScreen = Screen("Valores", w_w, w_h, fill=colours['bg']) 
 simScreen = Screen("Simulação", w_w, w_h, fill=colours['bg'])
 resScreen = Screen("Resultados", w_w, w_h, fill=colours['bg'])
 win = paramScreen.makeCurrent() # Tela atual
 finalResults = []
+
 # Botões
 bStart = Button(800,700,150,50,colours['blue'],colours['blue'],None,40,colours['black'],"Start")
 bReturn = Button(50,700,150,50,colours['red'],colours['red'],None,40,colours['black'],"Return")
@@ -59,6 +59,7 @@ input_boxes = [FNN, FRP, SCD, SCE, SHI, ERR, ENR, EPE, PNS, PRS, PEX, PRM, PMN, 
 exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâmetros para sem exportado
 
 # REFERENTE À TELA DE SIMULAÇÃO #
+
 # Timer
 clock = pg.time.Clock()
 #timer = Timer(1,850,50)
@@ -66,11 +67,13 @@ pg.time.set_timer(pg.USEREVENT+1,1000)
 timer_event = pg.USEREVENT+1
 minsize = 15
 maxsize = 100
+
 # Cálculos da simulação
 op = {"+": operator.add, "-": operator.sub} # Operadores para os tipos de interações
 tabela = pd.read_csv("interactions.csv", index_col=0) # Tabela de interações
 factor = 0.5 # Fator multiplicativo
 dim = len(tabela.index) # Tamanho da tabela
+
 # Elementos
 fnn = Bolinha('FNN',values,450,130,minsize, maxsize)
 frp = Bolinha('FRP',values,560,130,minsize, maxsize)
@@ -192,10 +195,6 @@ while not done:
             
         
 # FIM DA TELA DE RESULTADOS
-    '''
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            done = True'''
+    
     pg.display.update()
-#print(finalResults)
 pg.quit()
