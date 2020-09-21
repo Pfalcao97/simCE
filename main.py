@@ -169,9 +169,9 @@ while not done:
             win = paramScreen.makeCurrent()
             simScreen.endCurrent()
 
-# FIM DA TELA DE SIMULAÇÃO
+    # FIM DA TELA DE SIMULAÇÃO
 
-# INÍCIO DA TELA DE RESULTADOS
+    # INÍCIO DA TELA DE RESULTADOS
     elif resScreen.checkUpdate():
         bReturn.showButton(resScreen.screen)
         bExportResults.showButton(resScreen.screen)
