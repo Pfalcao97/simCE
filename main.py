@@ -17,6 +17,7 @@ pg.init()
 pg.font.init()
 w_w = 1024
 w_h = 768
+
 done = False
 colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
 values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0, 'ENR': 0.0, 'EPE': 0.0, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
@@ -170,7 +171,8 @@ while not done:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
-
+        
+        
 # FIM DA TELA DE RESULTADOS
     '''
     for event in pg.event.get():

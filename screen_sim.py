@@ -22,7 +22,7 @@ class Bolinha:
         self.value = values[self.name]
         self.screen = screen
         self.name_surface = FONT.render(self.name,True,black)
-        self.size = 15+int(self.value*10)
+        self.size = int(self.value*10)
         self.minsize = minsize
         self.maxsize = maxsize
     
@@ -33,7 +33,7 @@ class Bolinha:
         screen.blit(self.name_surface, (self.x-int(FONT.size(self.name)[0]/2), self.y-int(FONT.size(self.name)[1]/2)))
     
     def update(self, values):
-        self.size = 15+int(values[self.name]*10)
+        self.size = int(values[self.name]*10)
         if self.size > self.maxsize:
             self.size = self.maxsize
         elif self.size < self.minsize:
