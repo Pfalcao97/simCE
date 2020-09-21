@@ -18,7 +18,7 @@ pg.font.init()
 w_w = 1024
 w_h = 768
 FONT = pg.font.Font(None, 32)
-time = 5
+time = 10
 done = False
 colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
 values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0, 'ENR': 0.0, 'EPE': 0.0, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
@@ -65,7 +65,7 @@ clock = pg.time.Clock()
 pg.time.set_timer(pg.USEREVENT+1,1000)
 timer_event = pg.USEREVENT+1
 minsize = 15
-maxsize = 50
+maxsize = 100
 # Cálculos da simulação
 op = {"+": operator.add, "-": operator.sub} # Operadores para os tipos de interações
 tabela = pd.read_csv("interactions.csv", index_col=0) # Tabela de interações

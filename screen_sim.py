@@ -22,7 +22,7 @@ class Bolinha:
         self.value = values[self.name]
         self.screen = screen
         self.name_surface = FONT.render(self.name,True,black)
-        self.size = int(self.value*10)
+        self.size = 30
         self.minsize = minsize
         self.maxsize = maxsize
     
