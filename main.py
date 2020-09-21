@@ -153,15 +153,15 @@ while not done:
                             pass
                         else:
                             values[a] = op[operation](values[a],factor*values[b])
-                for element in elements:
-                    element.update(values)
-                #finalResults.append(values)
+                # for element in elements:
+                #     element.update(values)
                 timer.update()
                 if timer.time <= 0:
                     timer.time = 0
                     win = resScreen.makeCurrent()
                     simScreen.endCurrent()
-
+            for element in elements:
+                element.update(values)
         if bReturn.focusCheck(mouse_pos, mouse_click):
             win = paramScreen.makeCurrent()
             simScreen.endCurrent()
