@@ -1,7 +1,7 @@
 # Circular business models simulation
 <p align="center">
   <a href="https://github.com/aluizgc/simCE">
-    <img src="simgif.gif" width="400">
+    <img src="simgif.gif" width="500">
   </a>
 </p>
 
