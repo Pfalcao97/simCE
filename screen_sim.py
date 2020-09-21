@@ -94,7 +94,7 @@ spp = Bolinha('SPP',values,510,520,15,100)
 # prs = Bolinha('PRS',380,660)
 # spp = Bolinha('SPP',510,520)
 
-timer = Timer(10,850,50)
+#timer = Timer(10,850,50)
 pg.time.set_timer(pg.USEREVENT+1,1000)
 timer_event = pg.USEREVENT+1
 elements = [fnn,frp,pex,prm,pmn,plg,csu,scd,sce,shi,err,enr,epe,pns,prs,spp]

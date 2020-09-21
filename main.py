@@ -17,7 +17,8 @@ pg.init()
 pg.font.init()
 w_w = 1024
 w_h = 768
-
+FONT = pg.font.Font(None, 32)
+time = 5
 done = False
 colours = {"white": (255,255,255), "black": (0,0,0), "shadow": (90,90,90), "bg": (220,220,220), "red": (255,0,0), "green": (0,255,0), "blue": (0,0,255)}
 values = {'FNN': 0.0, 'FRP': 0.0, 'SCD': 0.0, 'SCE': 0.0, 'SHI': 0.0, 'ERR': 0.0, 'ENR': 0.0, 'EPE': 0.0, 'PNS': 0.0, 'PRS': 0.0, 'PEX': 0.0, 'PRM': 0.0, 'PMN': 0.0, 'PLG': 0.0, 'SPP': 0.0, 'CSU': 0.0}
@@ -28,9 +29,10 @@ resScreen = Screen("Resultados", w_w, w_h, fill=colours['bg'])
 win = paramScreen.makeCurrent() # Tela atual
 finalResults = []
 # Botões
-bStart = Button(775,665,150,50,colours['blue'],colours['blue'],None,40,colours['black'],"Start")
-bReturn = Button(775,665,150,50,colours['red'],colours['red'],None,40,colours['black'],"Return")
-bResults = Button(775,665,80,32,colours['green'],colours['green'],None,40,colours['black'],"Results")
+bStart = Button(800,700,150,50,colours['blue'],colours['blue'],None,40,colours['black'],"Start")
+bReturn = Button(50,700,150,50,colours['red'],colours['red'],None,40,colours['black'],"Return")
+bExportResults = Button(775,700,200,50,colours['green'],colours['green'],None,40,colours['black'],"Export as .txt")
+
 
 # REFERENTA À TELA DE PARÂMETROS #
 
@@ -59,7 +61,7 @@ exportValues = np.zeros(len(input_boxes)) # Lista com os valores de cada parâme
 # REFERENTE À TELA DE SIMULAÇÃO #
 # Timer
 clock = pg.time.Clock()
-timer = Timer(10,850,50)
+#timer = Timer(1,850,50)
 pg.time.set_timer(pg.USEREVENT+1,1000)
 timer_event = pg.USEREVENT+1
 minsize = 15
@@ -108,7 +110,7 @@ while not done:
     
     # Tela do menu de variáveis
     if paramScreen.checkUpdate():
-        timer = Timer(10,850,50)
+        timer = Timer(time,850,50)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
@@ -153,7 +155,7 @@ while not done:
                             values[a] = op[operation](values[a],factor*values[b])
                 for element in elements:
                     element.update(values)
-                finalResults.append(values)
+                #finalResults.append(values)
                 timer.update()
                 if timer.time <= 0:
                     timer.time = 0
@@ -168,10 +170,26 @@ while not done:
 
 # INÍCIO DA TELA DE RESULTADOS
     elif resScreen.checkUpdate():
+        bReturn.showButton(resScreen.screen)
+        bExportResults.showButton(resScreen.screen)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
-        
+
+# Mostrando os valores na tela final
+        for box in input_boxes:
+            results_param = FONT.render(str(box.name), True, colours['black'])
+            results_value = FONT.render(str(values[box.name]), True, colours['black'])
+            resScreen.screen.blit(results_param,(box.rect.x,box.rect.y))
+            resScreen.screen.blit(results_value,(box.rect.x+90,box.rect.y))
+        if bExportResults.focusCheck(mouse_pos,mouse_click):
+            file = open("results.txt", "w+")
+            file.write(str(values))
+            file.close()
+        if bReturn.focusCheck(mouse_pos, mouse_click):
+            win = paramScreen.makeCurrent()
+            resScreen.endCurrent()
+            
         
 # FIM DA TELA DE RESULTADOS
     '''
@@ -179,5 +197,5 @@ while not done:
         if event.type == pg.QUIT:
             done = True'''
     pg.display.update()
-print(finalResults)
+#print(finalResults)
 pg.quit()
